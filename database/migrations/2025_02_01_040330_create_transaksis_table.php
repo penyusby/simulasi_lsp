@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
-            $table->date('tanggal');
+            $table->date('tanggal')->useCurrent();
             $table->string('nama_pelanggan');
-            $table->foreignId('layanan_id')->constrained('tb_layanan')->onDelete('cascade');
+            $table->foreignId('layanan_id')->constrained('layanans')->onDelete('cascade');
             $table->integer('berat'); // dalam KG
-            $table->integer('total_harga'); // hasil berat * harga layanan
             $table->enum('keterangan', ['Proses', 'Selesai'])->default('Proses');
             $table->enum('pembayaran', ['Belum Bayar', 'Lunas'])->default('Belum Bayar');
             $table->timestamps();

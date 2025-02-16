@@ -115,7 +115,7 @@
                                                 <td>{{ $item->nama_pelanggan }}</td>
                                                 <td>{{ $item->layanan->layanan }}</td>
                                                 <td>{{ $item->berat }} kg</td>
-                                                <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d F Y') }}</td>
                                                 <td>{{ $item->pembayaran }}</td>
                                             </tr>
                                         @endforeach

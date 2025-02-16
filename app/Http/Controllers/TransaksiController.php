@@ -39,24 +39,15 @@ class TransaksiController extends Controller
             'layanan_id' => 'required|exists:layanans,id',
             'berat' => 'required|numeric|min:1',
         ]);
-    
-        $layanan = Layanan::findOrFail($request->layanan_id);
-    
-        $total_harga = $layanan->harga_per_kg * $request->berat;
-    
-        Transaksi::create([
-            'tanggal' => $request->tanggal,
-            'nama_pelanggan' => $request->nama_pelanggan,
-            'layanan_id' => $request->layanan_id,
-            'berat' => $request->berat,
-            'total_harga' => $total_harga,
-            'keterangan' => $request->keterangan ?? 'Proses',
-            'pembayaran' => $request->pembayaran ?? 'Belum Bayar',
-        ]);
-    
+
+
+        Transaksi::create(
+            $request->all()
+        );
+
         return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil ditambahkan.');
     }
-    
+
     /**
      * Display the specified resource.
      */
@@ -78,7 +69,7 @@ class TransaksiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Transaksi $transaksi)
     {
         $request->validate([
             'tanggal' => 'required|date',
@@ -86,33 +77,27 @@ class TransaksiController extends Controller
             'layanan_id' => 'required|exists:layanans,id',
             'berat' => 'required|numeric|min:1'
         ]);
-
-        $transaksi = Transaksi::findOrFail($id);
-        $layanan = Layanan::findOrFail($request->layanan_id);
-
-        $total_harga = $layanan->harga_per_kg * $request->berat;
-
-        $transaksi->update([
-            'tanggal' => $request->tanggal,
-            'nama_pelanggan' => $request->nama_pelanggan,
-            'layanan_id' => $request->layanan_id,
-            'berat' => $request->berat,
-            'total_harga' => $total_harga,
-            'keterangan' => $request->keterangan ?? $transaksi->keterangan,
-            'pembayaran' => $request->pembayaran ?? $transaksi->pembayaran,
-        ]);
-
+        
+        $transaksi->update($request->all());
         return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil diperbarui.');
     }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Transaksi $transaksi)
     {
-        Transaksi::findOrFail($id)->delete();
+        $transaksi->delete();
         return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dihapus.');
     }
-    public function cetakStruk($id)
+    public function bayar(Transaksi $transaksi)
+    {
+        $transaksi ->update([
+            'keterangan' => 'Selesai',
+            'pembayaran' => 'Lunas',
+        ]);
+
+        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dibayar dan telah selesai!');
+    }    public function cetakStruk($id)
     {
         $transaksi = Transaksi::with('layanan')->findOrFail($id); // Ambil data transaksi dengan relasi layanan
         return view('transaksi_cetak', compact('transaksi')); // Tampilkan view cetak

@@ -17,8 +17,7 @@ use App\Http\Controllers\DashController;
 */
 
 
-Route::resource('layanan', LayananController::class);
-Route::resource('transaksi', TransaksiController::class);
+Route::resources(['layanan' => LayananController::class, 'transaksi' => TransaksiController::class,]);
 // Route::get('/beranda', function () {
 //     return view('beranda');
 // });
@@ -26,3 +25,4 @@ Route::resource('transaksi', TransaksiController::class);
 
 Route::get('/', [DashController::class, 'index'])->name('beranda.index');
 Route::get('/transaksi/cetak/{id}', [TransaksiController::class, 'cetakStruk'])->name('transaksi.cetak');
+Route::patch('/transaksi/{id}/bayar', [TransaksiController::class, 'bayar'])->name('transaksi.bayar');

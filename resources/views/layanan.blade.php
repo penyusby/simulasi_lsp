@@ -11,16 +11,34 @@
                         <a href="{{ route('layanan.create') }}">
                             <button type="button" class="btn btn-outline-primary">Tambah</button></a>
                     </div>
+                    @if (session('success'))
+                        <div class="alert alert-success text-white alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-danger text-white alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <div id="demo_info" class="box">
                                 <table id="example" class="table table-striped" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Layanan</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Harga</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Aksi</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                No</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Layanan</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Harga</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                                Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
